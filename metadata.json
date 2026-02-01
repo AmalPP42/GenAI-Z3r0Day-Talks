@@ -1,0 +1,8 @@
+{
+  "name": "Z3r0Day-Talks",
+  "description": "An elite high-security platform for cybersecurity researchers to conduct live meetups, share 0-day research, and collaborate in real-time.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}

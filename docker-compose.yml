@@ -1,0 +1,41 @@
+
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=cybernexus
+      - POSTGRES_USER=researcher
+      - POSTGRES_PASSWORD=secure_pass_123
+
+  backend:
+    build: ./backend
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_NAME=cybernexus
+      - DB_USER=researcher
+      - DB_PASS=secure_pass_123
+      - DB_HOST=db
+    depends_on:
+      - db
+
+  frontend:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
